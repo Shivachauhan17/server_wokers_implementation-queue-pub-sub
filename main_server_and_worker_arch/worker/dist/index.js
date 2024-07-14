@@ -11,21 +11,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const redis_1 = require("redis");
 const client = (0, redis_1.createClient)();
-const personVerified = (submission) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("submission string: ", submission);
-    const { name, passion } = JSON.parse(submission);
-    console.log("name of person:", name);
-    console.log("passion of person:", passion);
-    console.log("---------------------task Done--------------------");
-});
+// const personVerified=async(submission:string)=>{
+//     console.log("submission string: ",submission)
+//     const {name,passion}=JSON.parse(submission)
+//     console.log("name of person:",name)
+//     console.log("passion of person:",passion)
+//     console.log("---------------------task Done--------------------")
+//     client.publish('person',"hello")
+// }
 const startWorker = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield client.connect();
         console.log("Worker connected to Redis.");
         while (true) {
             try {
-                const submission = yield client.brPop("person", 0);
-                yield personVerified(submission.element);
+                const submission = yield client.brPop("indentity", 0);
+                console.log(submission);
+                // await personVerified(submission.element)
             }
             catch (e) {
                 console.error("Error processing submission:", e);

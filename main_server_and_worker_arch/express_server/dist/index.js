@@ -17,6 +17,12 @@ const redis_1 = require("redis");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 const client = (0, redis_1.createClient)();
+// client.subscribe("person",()=>{
+//     console.log("subscriber to channel")
+// })
+// client.on('message',(channel,message)=>{
+//     console.log("received message on channel: ",message)
+// })
 app.post('/pushToQueue', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("endpoint hitted");
     const { name, passion } = req.body;
@@ -24,7 +30,7 @@ app.post('/pushToQueue', (req, res) => __awaiter(void 0, void 0, void 0, functio
         return res.status(400).json({ msg: "input are not sent correctly" });
     }
     try {
-        yield client.lPush("person", JSON.stringify({ name: name, passion: passion }));
+        yield client.lPush("indentity", JSON.stringify({ name: name, passion: passion }));
         return res.status(200).json({ msg: "succesfully added to queue" });
     }
     catch (e) {
